@@ -1,0 +1,3 @@
+** Language built during the http://proglangmasterclass.com/ **
+
+This package contains an interpreter, a Javascript and bytecode compiler for a subset of Ruby.

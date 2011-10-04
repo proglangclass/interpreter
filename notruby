@@ -1,0 +1,56 @@
+#!/usr/bin/env ruby -s
+$:.unshift File.expand_path("..", __FILE__)
+require "interpreter"
+require "compiler"
+require "readline"
+
+if $h # -h option
+  abort <<USAGE
+Usage:
+
+  ./notruby # start REPL
+  ./notruby file.rb
+  ./notruby -e='code'
+  ./notruby -c=js file.rb # compile to Javascript
+  ./notruby -c=bc file.rb # compile to Bytecode
+
+USAGE
+end
+
+# Eval some code
+# $e = # -e option
+if $e || ARGV.first
+  if $e
+    code = $e
+  else
+    code = File.read(ARGV.first)
+  end
+  
+  # Compile?
+  case $c # -c option
+  when "js"
+    require "js_generator"
+    puts Compiler.new(JsGenerator).compile(code)
+  when "bc"
+    require "bytecode_generator"
+    puts Compiler.new(BytecodeGenerator).compile(code)
+  else
+    Interpreter.new.eval(code)
+  end
+
+# Start the REPL, read-eval-print-loop, or interactive interpreter
+else
+  puts "NotRuby REPL, CTRL+C to quit"
+  interpreter = Interpreter.new
+  loop do
+    line = Readline::readline(">> ")
+    Readline::HISTORY.push(line)
+    begin
+      result = interpreter.eval(line).ruby_value
+      puts "=> #{result.ruby_value.inspect}"
+    rescue => error
+      puts error
+    end
+  end
+
+end
