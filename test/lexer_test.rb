@@ -27,10 +27,11 @@ class LexerTest < Test::Unit::TestCase
     assert_equal [["&&", "&&"]], Lexer.new.run('&&')
   end
   
+  # Exercise: make this pass
   def test_comment
     assert_equal [], Lexer.new.run('# hello')
   end
-    
+  
   def test_tokens
     code = <<-CODE
       def method
