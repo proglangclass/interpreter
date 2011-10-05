@@ -53,4 +53,14 @@ class InterpreterTest < Test::Unit::TestCase
     
     assert_equal true, Interpreter.new.eval(code).ruby_value
   end
+  
+  def test_if
+    code = <<-CODE
+      if true
+        "works!"
+      end
+    CODE
+    
+    assert_equal "works!", Interpreter.new.eval(code).ruby_value
+  end
 end
