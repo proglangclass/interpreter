@@ -122,8 +122,6 @@ class IfNode
     # structure.
     if condition.eval(context).ruby_value
       body.eval(context)
-    elsif else_body
-      else_body.eval(context)
     end
     #######################
   end

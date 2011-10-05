@@ -70,22 +70,6 @@ class ParserTest < Test::Unit::TestCase
     assert_equal nodes, Parser.new.parse(code)
   end
   
-  def test_if
-    code = <<-CODE
-      if true
-        # this
-      end
-    CODE
-    
-    nodes = Nodes.new([
-      IfNode.new(TrueNode.new,
-        Nodes.new([])
-      )
-    ])
-    
-    assert_equal nodes, Parser.new.parse(code)
-  end
-  
   def test_arithmetic
     nodes = Nodes.new([
       CallNode.new(NumberNode.new(1), "+", [
@@ -110,5 +94,22 @@ class ParserTest < Test::Unit::TestCase
     assert_equal Nodes.new([
       CallNode.new(nil, "!", [NumberNode.new(2)])
     ]), Parser.new.parse("!2")
+  end
+  
+  ## Exercise: make this pass
+  def test_if
+    code = <<-CODE
+      if true
+        # this
+      end
+    CODE
+    
+    nodes = Nodes.new([
+      IfNode.new(TrueNode.new,
+        Nodes.new([])
+      )
+    ])
+    
+    assert_equal nodes, Parser.new.parse(code)
   end
 end
