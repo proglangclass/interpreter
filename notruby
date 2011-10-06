@@ -32,7 +32,7 @@ else
     Readline::HISTORY.push(line)
     begin
       result = interpreter.eval(line).ruby_value
-      puts "=> #{result.ruby_value.inspect}"
+      puts "=> #{result.inspect}"
     rescue => error
       puts error
     end
