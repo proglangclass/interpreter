@@ -15,6 +15,7 @@ class JsCompilerTest < Test::Unit::TestCase
     assert_equal "var a;\na = 1;\na;\n", @compiler.compile("a=1; a")
   end
   
+  ## Exercise: make this pass
   def test_if
     code = <<CODE
 a = 1
