@@ -51,7 +51,7 @@ class BytecodeGenerator
   end
   
   def get_local(name)
-    ### Exercise
+    
   end
   
   def call(receiver, method, arguments)

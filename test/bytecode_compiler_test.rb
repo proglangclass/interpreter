@@ -8,7 +8,7 @@ class BytecodeCompilerTest < Test::Unit::TestCase
   end
   
   def test_literal
-    assert_equal [10, "hi"], @compiler.compile(%Q{10;"hi"})[:literals]
+    assert_equal [10, "hi"], @compiler.compile('10;"hi"')[:literals]
   end
   
   def test_locals
@@ -23,15 +23,6 @@ class BytecodeCompilerTest < Test::Unit::TestCase
     ], @compiler.compile("a=1")[:instructions]
   end
   
-  def test_get_local
-    assert_equal [
-      PUSH_NUMBER,   0, # 1    stack = [1]
-      SET_LOCAL,     0, # a    stack = []
-      GET_LOCAL,     0, # a    stack = [1]
-      RETURN
-    ], @compiler.compile("a=1; a")[:instructions]
-  end
-  
   def test_call
     assert_equal [
       PUSH_SELF,           #                 stack = [self]
@@ -41,7 +32,7 @@ class BytecodeCompilerTest < Test::Unit::TestCase
     ], @compiler.compile("print(1)")[:instructions]
   end
   
-  def test_jump_unless
+  def test_if
     assert_equal [
       PUSH_BOOL,     1, # true   stack = [true]
       JUMP_UNLESS,   2, # jump 2 more bytes unless what is on the stack is true
@@ -50,7 +41,6 @@ class BytecodeCompilerTest < Test::Unit::TestCase
     ], @compiler.compile('if true; "yeah!" ;end')[:instructions]
   end
   
-  ### Exercise: make this test pass
   def test_add
     assert_equal [
       PUSH_NUMBER,   0,      # 1               stack = [1]
@@ -58,5 +48,15 @@ class BytecodeCompilerTest < Test::Unit::TestCase
       ADD,                   #                 stack = [3]
       RETURN
     ], @compiler.compile("1 + 2")[:instructions]
+  end
+  
+  ## Exercise: make this pass
+  def test_get_local
+    assert_equal [
+      PUSH_NUMBER,   0, # 1    stack = [1]
+      SET_LOCAL,     0, # a    stack = []
+      GET_LOCAL,     0, # a    stack = [1]
+      RETURN
+    ], @compiler.compile("a=1; a")[:instructions]
   end
 end
