@@ -4,10 +4,12 @@ class JsGenerator
     @locals = []
   end
   
+  # Emit the Javascript code
   def emit(code)
     @code << code
   end
   
+  # true if the local variable as been defined
   def has_local?(name)
     @locals.include?(name)
   end
