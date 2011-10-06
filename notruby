@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby -s
+# NotRuby interpreter
 $:.unshift File.expand_path("..", __FILE__)
 require "interpreter"
-require "compiler"
 require "readline"
 
 if $h # -h option
@@ -11,32 +11,17 @@ Usage:
   ./notruby # start REPL
   ./notruby file.rb
   ./notruby -e='code'
-  ./notruby -c=js file.rb # compile to Javascript
-  ./notruby -c=bc file.rb # compile to Bytecode
 
 USAGE
 end
 
 # Eval some code
 # $e = # -e option
-if $e || ARGV.first
-  if $e
-    code = $e
-  else
-    code = File.read(ARGV.first)
-  end
-  
-  # Compile?
-  case $c # -c option
-  when "js"
-    require "js_generator"
-    puts Compiler.new(JsGenerator).compile(code)
-  when "bc"
-    require "bytecode_generator"
-    puts Compiler.new(BytecodeGenerator).compile(code)
-  else
-    Interpreter.new.eval(code)
-  end
+if $e
+  Interpreter.new.eval($e)
+
+elsif ARGV.first
+  Interpreter.new.eval(File.read(ARGV.first))
 
 # Start the REPL, read-eval-print-loop, or interactive interpreter
 else

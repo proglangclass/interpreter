@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby -s
+# NotRuby compiler
+$:.unshift File.expand_path("..", __FILE__)
+require "compiler"
+
+if $h # -h option
+  abort <<USAGE
+Usage:
+
+  ./notruby -c=js file.rb # compile to Javascript
+  ./notruby -c=bc file.rb # compile to Bytecode
+
+USAGE
+end
+
+if $e # -e option
+  code = $e
+else
+  code = File.read(ARGV.first)
+end
+
+case $c # -c option
+when "js"
+  require "js_generator"
+  puts Compiler.new(JsGenerator).compile(code)
+  
+when "bc"
+  require "bytecode_generator"
+  puts Compiler.new(BytecodeGenerator).compile(code)
+  
+else
+  raise "Missing -c option"
+  
+end
