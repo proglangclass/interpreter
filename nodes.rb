@@ -49,4 +49,4 @@ class ClassNode < Struct.new(:name, :body); end
 
 # "if" control structure. Look at this node if you want to implement other control
 # structures like while, for, loop, etc.
-class IfNode  < Struct.new(:condition, :body); end
+class IfNode  < Struct.new(:condition, :body, :else_body); end

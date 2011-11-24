@@ -87,5 +87,6 @@ class IfNode
     # Here you have access to:
     #  condition: condition node that will determine if the body should be executed
     #       body: node to be executed if the condition is true
+    #  else_body: node to be executed if the condition is false
   end
 end

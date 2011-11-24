@@ -92,11 +92,13 @@ class ParserTest < Test::Unit::TestCase
   
   def test_unary_operator
     assert_equal Nodes.new([
-      CallNode.new(nil, "!", [NumberNode.new(2)])
+      CallNode.new(NumberNode.new(2), "!", [])
     ]), Parser.new.parse("!2")
   end
   
-  ## Exercise: make this pass
+  
+  ## Exercise: make the next two tests pass
+  
   def test_if
     code = <<-CODE
       if true
@@ -106,6 +108,26 @@ class ParserTest < Test::Unit::TestCase
     
     nodes = Nodes.new([
       IfNode.new(TrueNode.new,
+        Nodes.new([]),
+        nil
+      )
+    ])
+    
+    assert_equal nodes, Parser.new.parse(code)
+  end
+  
+  def test_if_with_else
+    code = <<-CODE
+      if true
+        # this
+      else
+        # that
+      end
+    CODE
+    
+    nodes = Nodes.new([
+      IfNode.new(TrueNode.new,
+        Nodes.new([]),
         Nodes.new([])
       )
     ])
