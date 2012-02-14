@@ -15,8 +15,8 @@ token CONSTANT
 token END
 
 rule
-  Root:
-    
+  Expressions:
+    /* nothing */                       { result = Nodes.new([]) }
   ;
   
 end
