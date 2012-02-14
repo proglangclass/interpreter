@@ -1,10 +1,5 @@
 # Collection of nodes each one representing an expression.
-class Nodes < Struct.new(:nodes)
-  def <<(node)
-    nodes << node
-    self
-  end
-end
+class Nodes < Struct.new(:nodes); end
 
 # Literals: static values that have a Ruby representation.
 class LiteralNode < Struct.new(:value); end
