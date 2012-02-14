@@ -29,6 +29,11 @@ class RClass < RObject
     end
     method
   end
+  
+  # Helper method to define a method on this class
+  def def(name, &block)
+    @runtime_methods[name.to_s] = block
+  end
 
   # Create a new instance of this class
   def new
