@@ -11,9 +11,10 @@ PUSH_BOOL,       # 1=t, 0=f     []             [true or false]
 GET_LOCAL,       # index        []             [value]
 SET_LOCAL,       # index        [value]        []
 JUMP_UNLESS,     # offset       [test]         []
+JUMP,            # offset       []             []
 ADD,             #              [a, b]         [result]
 RETURN = *       #              []             []
-(0..10)
+(0..11)
 
 class BytecodeGenerator
   def initialize
@@ -58,7 +59,7 @@ class BytecodeGenerator
     
   end
   
-  def if(condition, body)
+  def if(condition, body, else_body)
     
   end
   

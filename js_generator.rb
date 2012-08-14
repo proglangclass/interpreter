@@ -34,7 +34,7 @@ class JsGenerator
     
   end
   
-  def if(condition, body)
+  def if(condition, body, else_body)
     
   end
   

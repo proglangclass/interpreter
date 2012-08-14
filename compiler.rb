@@ -71,6 +71,6 @@ end
 
 class IfNode
   def compile(generator)
-    generator.if condition, body
+    generator.if condition, body, else_body
   end
 end
