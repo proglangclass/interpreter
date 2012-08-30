@@ -17,67 +17,100 @@ class Nodes
   # The "context" variable is the environment in which the node is evaluated (local
   # variables, current class, etc.).
   def eval(context)
-    
+    return_value = nil
+    nodes.each do |node|
+      return_value = node.eval(context)
+    end
+    return_value || Runtime["nil"]
   end
 end
 
 class NumberNode
   def eval(context)
-    
+    Runtime["Number"].new_with_value(value)
   end
 end
 
 class StringNode
   def eval(context)
-    
+    Runtime["String"].new_with_value(value)
   end
 end
 
 class TrueNode
   def eval(context)
-    
+    Runtime["true"]
   end
 end
 
 class FalseNode
   def eval(context)
-    
+    Runtime["false"]
   end
 end
 
 class NilNode
   def eval(context)
-    
+    Runtime["nil"]
   end
 end
 
 class AssignNode
   def eval(context)
-    
+    context.locals[name] = value.eval(context)
   end
 end
 
 class ConstantNode
   def eval(context)
-    
+    context[name] || raise("Constant not found #{name}")
   end
 end
 
 class CallNode
   def eval(context)
+    # a, local var
+    if receiver.nil? && arguments.empty? && context.locals[method]
+      context.locals[method]
     
+    # method call
+    else
+      # receiver.print
+      if receiver
+        value = receiver.eval(context)
+      else
+        # print(...)
+        value = context.current_self
+      end
+      
+      evaluated_arguments = arguments.map { |arg| arg.eval(context) }
+      value.call(method, evaluated_arguments)
+      
+    end
   end
 end
 
 class DefNode
   def eval(context)
-    
+    method = RMethod.new(params, body)
+    context.current_class.runtime_methods[name] = method
   end
 end
 
 class ClassNode
   def eval(context)
+    rclass = context[name]
     
+    unless rclass # class was not defined
+      rclass = RClass.new
+      context[name] = rclass
+    end
+    
+    class_context = Context.new(rclass, rclass)
+    
+    body.eval(class_context)
+    
+    rclass
   end
 end
 
