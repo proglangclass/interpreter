@@ -65,15 +65,15 @@ class InterpreterTest < Test::Unit::TestCase
   end
   
   ## Exercise: implement everything missing to pass this test
-  # def test_while
-  #   code = <<-CODE
-  #     x = 0
-  #     while x < 10
-  #       x = x + 1
-  #     end
-  #     x
-  #   CODE
-  #   
-  #   assert_equal 10, Interpreter.new.eval(code).ruby_value
-  # end
+  def test_while
+    code = <<-CODE
+      x = 0
+      while x < 10
+        x = x + 1
+      end
+      x
+    CODE
+    
+    assert_equal 10, Interpreter.new.eval(code).ruby_value
+  end
 end

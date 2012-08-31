@@ -20,6 +20,7 @@ rule
   def                                   { [:DEF, text] }
   class                                 { [:CLASS, text] }
   if                                    { [:IF, text] }
+  while                                 { [:WHILE, text] }
   else                                  { [:ELSE, text] }
   true                                  { [:TRUE, text] }
   false                                 { [:FALSE, text] }
