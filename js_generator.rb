@@ -40,7 +40,11 @@ class JsGenerator
   end
   
   def if(condition, body, else_body)
-    
+    emit "if ("
+    condition.compile(self)
+    emit ") {\n"
+    body.compile(self)
+    emit "}"
   end
   
   def assemble
