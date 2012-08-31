@@ -24,31 +24,34 @@ class BytecodeGenerator
   end
   
   def compile_all(nodes)
-    
+    nodes.each do |node|
+      node.compile(self)
+    end
   end
   
   def number_literal(value)
-    
+    emit PUSH_NUMBER, literal_index(value)
   end
   
   def string_literal(value)
-    
+    emit PUSH_STRING, literal_index(value)
   end
   
   def true_literal
-    
+    emit PUSH_BOOL, 1
   end
   
   def false_literal
-    
+    emit PUSH_BOOL, 0
   end
   
   def nil_literal
-    
+    emit PUSH_NIL
   end
   
   def set_local(name, value)
-    
+    value.compile(self)
+    emit SET_LOCAL, local_index(name)
   end
   
   def get_local(name)
@@ -56,11 +59,32 @@ class BytecodeGenerator
   end
   
   def call(receiver, method, arguments)
+    if receiver
+      receiver.compile(self)
+    else
+      # self.print(1)
+      emit PUSH_SELF
+    end
     
+    arguments.each do |argument|
+      argument.compile(self)
+    end
+    
+    # Sample optimization
+    if method == "+"
+      emit ADD
+      return
+    end
+    
+    emit CALL, literal_index(method), arguments.size
   end
   
   def if(condition, body, else_body)
-    
+    condition.compile(self)
+    emit JUMP_UNLESS, 0
+    offset_index = @instructions.size - 1
+    body.compile(self)
+    @instructions[offset_index] = @instructions.size - 1 - offset_index
   end
   
   # true if the local variable as been defined
