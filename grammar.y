@@ -68,8 +68,9 @@ rule
     Literal
   | Call
   | Operator
-  | Constant
-  | Assign
+  | GetConstant
+  | GetLocal
+  | SetLocal
   | Def
   | Class
   | If
@@ -93,11 +94,12 @@ rule
     # receiver.method(1, 2, 3)
   | Expression '.' IDENTIFIER
       Arguments                   { result = CallNode.new(val[0], val[2], val[3]) }
+    # receiver.method (Syntactic sugar)
+  | Expression '.' IDENTIFIER     { result = CallNode.new(val[0], val[2], []) }
   ;
   
   Arguments:
-    /* nothing */                 { result = [] }
-  | '(' ')'                       { result = [] }
+    '(' ')'                       { result = [] }
   | '(' ArgList ')'               { result = val[1] }
   ;
   
@@ -126,10 +128,13 @@ rule
   | '!' Expression                { result = CallNode.new(val[1], val[0], []) }
   ;
   
-  # Assignment to a local variable
-  Assign:
-    IDENTIFIER "=" Expression     { result = AssignNode.new(val[0], val[2]) }
+  # Local variables
+  GetLocal:
+    IDENTIFIER                    { result = GetLocalNode.new(val[0]) }
   ;
+  SetLocal:
+    IDENTIFIER "=" Expression     { result = SetLocalNode.new(val[0], val[2]) }
+  ;  
   
   # Method definition
   Def:
@@ -157,8 +162,8 @@ rule
   ;
   
   # Retrieving the value of a constant
-  Constant:
-    CONSTANT                      { result = ConstantNode.new(val[0]) }
+  GetConstant:
+    CONSTANT                      { result = GetConstantNode.new(val[0]) }
   ;
   
   If:

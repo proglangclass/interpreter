@@ -96,11 +96,6 @@ class BytecodeGenerator
     end
   end
   
-  # true if the local variable as been defined
-  def has_local?(name)
-    @locals.include?(name)
-  end
-  
   # Returns the index of the local in the local table
   def local_index(name)
     @locals << name unless @locals.include?(name)

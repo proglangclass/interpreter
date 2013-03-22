@@ -35,10 +35,11 @@ end
 class CallNode < Struct.new(:receiver, :method, :arguments); end
 
 # Setting the value of a local variable.
-class AssignNode < Struct.new(:name, :value); end
+class SetLocalNode < Struct.new(:name, :value); end
+class GetLocalNode < Struct.new(:name); end
 
 # Getting the value of a constant
-class ConstantNode < Struct.new(:name); end
+class GetConstantNode < Struct.new(:name); end
 
 # Method definition.
 class DefNode < Struct.new(:name, :params, :body); end

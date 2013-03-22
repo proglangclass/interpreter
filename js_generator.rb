@@ -9,11 +9,6 @@ class JsGenerator
     @code << code
   end
   
-  # true if the local variable as been defined
-  def has_local?(name)
-    @locals.include?(name)
-  end
-  
   def compile_all(nodes)
     nodes.each do |node|
       node.compile(self)
@@ -30,7 +25,7 @@ class JsGenerator
   end
   
   def set_local(name, value)
-    @locals << name unless has_local?(name)
+    @locals << name unless @locals.include?(name)
     emit "#{name} = "
     value.compile(self)
   end

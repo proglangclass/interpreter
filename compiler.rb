@@ -51,19 +51,17 @@ end
 
 class CallNode
   def compile(generator)
-    if receiver.nil? && generator.has_local?(method) && arguments.empty?
-      # Local variable load
-      generator.get_local(method)
-      
-    else
-      # Method call
-      generator.call(receiver, method, arguments)
-      
-    end
+    generator.call(receiver, method, arguments)
   end
 end
 
-class AssignNode
+class GetLocalNode
+  def compile(generator)
+    generator.get_local(name)
+  end
+end
+
+class SetLocalNode
   def compile(generator)
     generator.set_local(name, value)
   end

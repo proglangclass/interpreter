@@ -1,4 +1,4 @@
-# Represents an Awesome object instance in the Ruby world.
+# Represents an object instance in the Ruby world.
 class RObject
   attr_accessor :runtime_class, :ruby_value
 

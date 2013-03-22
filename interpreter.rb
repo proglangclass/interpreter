@@ -7,7 +7,7 @@ class Interpreter
   end
   
   def eval(code)
-    @parser.parse(code).eval(Runtime)
+    @parser.parse(code).eval(RootContext)
   end
 end
 
@@ -21,72 +21,70 @@ class Nodes
     nodes.each do |node|
       return_value = node.eval(context)
     end
-    return_value || Runtime["nil"]
+    return_value || Constants["nil"]
   end
 end
 
 class NumberNode
   def eval(context)
-    Runtime["Number"].new_with_value(value)
+    Constants["Number"].new_with_value(value)
   end
 end
 
 class StringNode
   def eval(context)
-    Runtime["String"].new_with_value(value)
+    Constants["String"].new_with_value(value)
   end
 end
 
 class TrueNode
   def eval(context)
-    Runtime["true"]
+    Constants["true"]
   end
 end
 
 class FalseNode
   def eval(context)
-    Runtime["false"]
+    Constants["false"]
   end
 end
 
 class NilNode
   def eval(context)
-    Runtime["nil"]
+    Constants["nil"]
   end
 end
 
-class AssignNode
+class SetLocalNode
   def eval(context)
     context.locals[name] = value.eval(context)
   end
 end
 
-class ConstantNode
+class GetLocalNode
   def eval(context)
-    context[name] || raise("Constant not found #{name}")
+    context.locals[name] || raise("Undefined local variable #{name}")
+  end
+end
+
+class GetConstantNode
+  def eval(context)
+    Constants[name] || raise("Uninitialized constant #{name}")
   end
 end
 
 class CallNode
   def eval(context)
-    # a, local var
-    if receiver.nil? && arguments.empty? && context.locals[method]
-      context.locals[method]
-    
-    # method call
+    # receiver.print
+    if receiver
+      value = receiver.eval(context)
     else
-      # receiver.print
-      if receiver
-        value = receiver.eval(context)
-      else
-        # print(...)
-        value = context.current_self
-      end
-      
-      evaluated_arguments = arguments.map { |arg| arg.eval(context) }
-      value.call(method, evaluated_arguments)
-      
+      # print(...)
+      value = context.current_self
     end
+    
+    evaluated_arguments = arguments.map { |arg| arg.eval(context) }
+    value.call(method, evaluated_arguments)
   end
 end
 
@@ -99,11 +97,11 @@ end
 
 class ClassNode
   def eval(context)
-    rclass = context[name]
+    rclass = Constants[name]
     
     unless rclass # class was not defined
       rclass = RClass.new
-      context[name] = rclass
+      Constants[name] = rclass
     end
     
     class_context = Context.new(rclass, rclass)
@@ -126,7 +124,7 @@ class IfNode
     elsif else_body
       else_body.eval(context)
     else
-      Runtime["nil"]
+      Constants["nil"]
     end
   end
 end

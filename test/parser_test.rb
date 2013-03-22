@@ -18,8 +18,8 @@ class ParserTest < Test::Unit::TestCase
     assert_equal Nodes.new([CallNode.new(nil, "method", [NumberNode.new(1), NumberNode.new(2)])]), Parser.new.parse("method(1, 2)")
   end
   
-  def test_assign
-    assert_equal Nodes.new([AssignNode.new("a", NumberNode.new(1))]), Parser.new.parse("a = 1")
+  def test_local
+    assert_equal Nodes.new([SetLocalNode.new("a", NumberNode.new(1))]), Parser.new.parse("a = 1")
   end
   
   def test_def
