@@ -4,11 +4,6 @@ class JsGenerator
     @locals = []
   end
   
-  # Emit the Javascript code
-  def emit(code)
-    @code << code
-  end
-  
   def compile_all(nodes)
     
   end
@@ -32,7 +27,13 @@ class JsGenerator
   def if(condition, body, else_body)
     
   end
+
+  # Emit a chunk of Javascript code.
+  def emit(code)
+    @code << code
+  end
   
+  # Called at the end of compilation to assemble all the code generated.
   def assemble
     @code.join
   end
