@@ -62,6 +62,9 @@ class Lexer < Racc::Parser
       when (text = @ss.scan(/[ \t]+/))
         ;
 
+      when (text = @ss.scan(/\#.*$/))
+        ;
+
       when (text = @ss.scan(/\d+/))
          action { [:NUMBER, text.to_i] }
 
