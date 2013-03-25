@@ -37,5 +37,6 @@ class RuntimeTest < Test::Unit::TestCase
 
     # 1.+(2)
     assert_equal 3, one.call("+", [two]).ruby_value
+    assert_equal Constants["Number"].new_with_value(3), one.call("+", [two])
   end
 end

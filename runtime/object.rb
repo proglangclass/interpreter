@@ -15,4 +15,8 @@ class RObject
     # object.
     @runtime_class.lookup(method).call(self, arguments)
   end
+
+  def ==(other)
+    ruby_value == other.ruby_value
+  end
 end
