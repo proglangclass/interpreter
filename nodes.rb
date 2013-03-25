@@ -36,6 +36,14 @@ class CallNode < Struct.new(:receiver, :method, :arguments); end
 
 # Setting the value of a local variable.
 class SetLocalNode < Struct.new(:name, :value); end
+# class SetLocalNode
+#   attr_accessor :name, :value
+#   def initialize(name, value)
+#     @name = name
+#     @value = value
+#   end
+# end
+
 class GetLocalNode < Struct.new(:name); end
 
 # Getting the value of a constant
