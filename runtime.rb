@@ -1,5 +1,4 @@
 require "runtime/object"
-require "runtime/class"
 require "runtime/method"
 require "runtime/context"
 
@@ -8,24 +7,22 @@ require "runtime/context"
 
 Constants = {}
 
-Constants["Class"] = RClass.new                        # Class
-Constants["Class"].runtime_class = Constants["Class"]  # Class.class = Class
-Constants["Object"] = RClass.new
+Constants["Object"] = RObject.new(nil)
 
 RootContext = Context.new(Constants["Object"].new)
 
-Constants["Number"] = RClass.new
-Constants["String"] = RClass.new
-Constants["TrueClass"] = RClass.new
-Constants["FalseClass"] = RClass.new
-Constants["NilClass"] = RClass.new
+Constants["Number"] = Constants["Object"].new
+Constants["String"] = Constants["Object"].new
+Constants["TrueClass"] = Constants["Object"].new
+Constants["FalseClass"] = Constants["Object"].new
+Constants["NilClass"] = Constants["Object"].new
 
 Constants["true"] = Constants["TrueClass"].new_with_value(true)
 Constants["false"] = Constants["FalseClass"].new_with_value(false)
 Constants["nil"] = Constants["NilClass"].new_with_value(nil)
 
 # Object.new
-Constants["Class"].def :new do |receiver, arguments|
+Constants["Object"].def :new do |receiver, arguments|
   receiver.new
 end
 

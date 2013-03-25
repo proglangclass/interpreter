@@ -7,7 +7,7 @@
 class Context
   attr_reader :locals, :current_self, :current_class
   
-  def initialize(current_self, current_class=current_self.runtime_class)
+  def initialize(current_self, current_class=current_self.prototype)
     @locals = {} # { name_of_local_var => value_of_local_var }
     @current_self = current_self
     @current_class = current_class

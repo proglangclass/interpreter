@@ -103,7 +103,7 @@ class ClassNode
 
     unless rclass
       # Class was not defined
-      rclass = RClass.new
+      rclass = Constants["Object"].new
       Constants[name] = rclass
     end
 
