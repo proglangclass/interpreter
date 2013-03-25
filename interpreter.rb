@@ -93,6 +93,7 @@ class DefNode
   def eval(context)
     method = RMethod.new(params, body)
     context.current_class.runtime_methods[name] = method
+    Constants["nil"]
   end
 end
 
