@@ -1,9 +1,13 @@
 # Collection of nodes each one representing an expression.
 class Nodes < Struct.new(:nodes); end
 # Same as (but will be comparable):
-#   class Nodes
-#     attr_accessor :nodes
-#   end
+#  class Nodes
+#    attr_accessor :nodes
+#
+#    def ==(other)
+#      ...
+#    end
+#  end
 
 # Literals: static values that have a Ruby representation.
 class LiteralNode < Struct.new(:value); end
@@ -50,5 +54,3 @@ class ClassNode < Struct.new(:name, :body); end
 # "if" control structure. Look at this node if you want to implement other control
 # structures like while, for, loop, etc.
 class IfNode  < Struct.new(:condition, :body, :else_body); end
-
-class WhileNode  < Struct.new(:condition, :body); end
