@@ -8,6 +8,7 @@ macro
 rule
   # Whitespace
   {BLANK}       # no action
+  \#.*$         # discard comment
   
   # Literals
   \d+           { [:NUMBER, text.to_i] }
