@@ -7,7 +7,8 @@ class Interpreter
   end
   
   def eval(code)
-    @parser.parse(code).eval(RootContext)
+    node = @parser.parse(code)
+    node.eval(RootContext)
   end
 end
 
@@ -17,73 +18,98 @@ class Nodes
   # The "context" variable is the environment in which the node is evaluated (local
   # variables, current class, etc.).
   def eval(context)
-    
+    return_value = nil
+    nodes.each do |node|
+      return_value = node.eval(context)
+    end
+    return_value || Constants["nil"]
   end
 end
 
 class NumberNode
   def eval(context)
-    
+    Constants["Number"].new_with_value(value)
   end
 end
 
 class StringNode
   def eval(context)
-    
+    Constants["String"].new_with_value(value)
   end
 end
 
 class TrueNode
   def eval(context)
-    
+    Constants["true"]
   end
 end
 
 class FalseNode
   def eval(context)
-    
+    Constants["false"]
   end
 end
 
 class NilNode
   def eval(context)
-    
+    Constants["nil"]
   end
 end
 
-class SetLocalNode
+class SetLocalNode # name, value
   def eval(context)
-    
+    context.locals[name] = value.eval(context)
   end
 end
 
 class GetLocalNode
   def eval(context)
-    
+    context.locals[name] || raise("Undefined local variable #{name}")
   end
 end
 
 class GetConstantNode
   def eval(context)
-    
+    Constants[name] || raise("Uninitialized constant #{name}")
   end
 end
 
 class CallNode
   def eval(context)
-    
+    if receiver # receiver.method
+      evaluated_receiver = receiver.eval(context)
+    else # method => self.method
+      evaluated_receiver = context.current_self
+    end
+
+    evaluated_arguments = arguments.map { |arg| arg.eval(context) }
+
+    evaluated_receiver.call(method, evaluated_arguments)
   end
 end
 
 class DefNode
   def eval(context)
-    
+    method = RMethod.new(params, body)
+    context.current_class.runtime_methods[name] = method
+    Constants["nil"]
   end
 end
 
 class ClassNode
   def eval(context)
-    
+    rclass = Constants[name]
+
+    unless rclass # class is not defined
+      rclass = RClass.new
+      Constants[name] = rclass
+    end
+
+    class_context = Context.new(rclass, rclass) # self = rclass, class = rclass
+
+    body.eval(class_context)
+
+    rclass
   end
 end
 

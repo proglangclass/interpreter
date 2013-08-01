@@ -7,9 +7,11 @@ class RMethod
   
   def call(receiver, arguments)
     # Create a context of evaluation in which the method will execute.
-    context = Context.new(receiver)
+    context = Context.new(receiver) # self = receiver
     
     # Assign arguments to local variables
+    #   def method(a) .... method(1)
+    #   a = 1
     @params.each_with_index do |param, index|
       context.locals[param] = arguments[index]
     end
