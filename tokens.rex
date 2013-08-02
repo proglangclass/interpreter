@@ -24,6 +24,7 @@ rule
   true          { [:TRUE, text] }
   false         { [:FALSE, text] }
   nil           { [:NIL, text] }
+  while         { [:WHILE, text] }
 
   # Identifers
   [a-z]\w*      { [:IDENTIFIER, text] }

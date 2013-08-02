@@ -130,3 +130,12 @@ class IfNode
     end
   end
 end
+
+class WhileNode
+  def eval(context)
+    while condition.eval(context).ruby_value
+      body.eval(context)
+    end
+    Constants["nil"]
+  end
+end

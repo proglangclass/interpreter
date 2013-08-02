@@ -98,6 +98,9 @@ class Lexer < Racc::Parser
       when (text = @ss.scan(/nil/))
          action { [:NIL, text] }
 
+      when (text = @ss.scan(/while/))
+         action { [:WHILE, text] }
+
       when (text = @ss.scan(/[a-z]\w*/))
          action { [:IDENTIFIER, text] }
 
