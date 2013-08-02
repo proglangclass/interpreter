@@ -19,12 +19,12 @@ class Nodes
   # variables, current class, etc.).
   def eval(context)
     return_value = nil
-    nodes.each do |node|
-      return_value = begin
-        node.eval(context)
-      rescue Return => e
-        e.value
+    begin
+      nodes.each do |node|
+        return_value = node.eval(context)
       end
+    rescue Return => e
+      e.value
     end
     return_value || Constants["nil"]
   end
@@ -152,6 +152,7 @@ class Return < Exception
   end
 end
 
+# return value
 class ReturnNode
   def eval(context)
     raise Return.new(value)
