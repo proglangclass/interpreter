@@ -25,6 +25,7 @@ rule
   false         { [:FALSE, text] }
   nil           { [:NIL, text] }
   while         { [:WHILE, text] }
+  return        { [:RETURN, text] }
 
   # Identifers
   [a-z]\w*      { [:IDENTIFIER, text] }

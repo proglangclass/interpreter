@@ -14,6 +14,7 @@ token IDENTIFIER
 token CONSTANT
 token END
 token WHILE
+token RETURN
 
 # Precedence table
 # Based on http://en.wikipedia.org/wiki/Operators_in_C_and_C%2B%2B#Operator_precedence
@@ -66,6 +67,7 @@ rule
   # All types of expression in our language
   Expression:
     Literal
+  | Return
   | Call
   | Operator
   | GetConstant
@@ -182,6 +184,11 @@ rule
     WHILE Expression Terminator
       Expressions
     END                           { result = WhileNode.new(val[1], val[3]) }
+  ;
+
+  Return:
+    RETURN                        { result = ReturnNode.new(nil) }
+  | RETURN Expression             { result = ReturnNode.new(val[1]) }
   ;
 end
 

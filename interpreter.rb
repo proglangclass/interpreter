@@ -20,7 +20,11 @@ class Nodes
   def eval(context)
     return_value = nil
     nodes.each do |node|
-      return_value = node.eval(context)
+      return_value = begin
+        node.eval(context)
+      rescue Return => e
+        e.value
+      end
     end
     return_value || Constants["nil"]
   end
@@ -137,5 +141,19 @@ class WhileNode
       body.eval(context)
     end
     Constants["nil"]
+  end
+end
+
+class Return < Exception
+  attr_accessor :value
+
+  def initialize(value)
+    @value = value
+  end
+end
+
+class ReturnNode
+  def eval(context)
+    raise Return.new(value)
   end
 end

@@ -101,4 +101,17 @@ class InterpreterTest < Test::Unit::TestCase
     
     assert_equal 10, Interpreter.new.eval(code).ruby_value
   end
+
+  def test_return
+    code = <<-CODE
+      def x
+        return 1
+        2
+      end
+
+      x()
+    CODE
+    
+    assert_equal 2, Interpreter.new.eval(code).ruby_value
+  end
 end
