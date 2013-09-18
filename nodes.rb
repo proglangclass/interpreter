@@ -1,5 +1,11 @@
 # Collection of nodes each one representing an expression.
-class Nodes < Struct.new(:nodes); end
+class Nodes < Struct.new(:nodes)
+  # Concatenate a node
+  def <<(node)
+    nodes << node
+    self
+  end
+end
 # Same as (but will be comparable):
 #   class Nodes
 #     attr_accessor :nodes
