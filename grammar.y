@@ -4,6 +4,7 @@ class Parser
 
 # Declare tokens produced by the lexer
 token IF
+token ELSE
 token DEF
 token CLASS
 token NEWLINE
@@ -15,9 +16,7 @@ token CONSTANT
 token END
 
 rule
-  Expressions:
-    /* nothing */                       { result = Nodes.new([]) }
-  ;
+  
   
 end
 
