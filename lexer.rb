@@ -62,14 +62,11 @@ class Lexer < Racc::Parser
       when (text = @ss.scan(/[ \t]+/))
         ;
 
-      when (text = @ss.scan(/\#.*$/))
-        ;
-
       when (text = @ss.scan(/\d+/))
-         action { [:NUMBER, text.to_i] }
+         action { [:NUMBER, text.to_i] } # [:NUMBER, 1]
 
       when (text = @ss.scan(/\"[^"]*\"/))
-         action { [:STRING, text[1..-2]] }
+         action { [:STRING, text[1..-2]] } # [:STRING, 'hi']
 
       when (text = @ss.scan(/\n+/))
          action { [:NEWLINE, text] }
@@ -84,10 +81,7 @@ class Lexer < Racc::Parser
          action { [:CLASS, text] }
 
       when (text = @ss.scan(/if/))
-         action { [:IF, text] }
-
-      when (text = @ss.scan(/while/))
-         action { [:WHILE, text] }
+         action { [:IF , text] }
 
       when (text = @ss.scan(/else/))
          action { [:ELSE, text] }
@@ -107,10 +101,10 @@ class Lexer < Racc::Parser
       when (text = @ss.scan(/[A-Z]\w*/))
          action { [:CONSTANT, text] }
 
-      when (text = @ss.scan(/&&/))
+      when (text = @ss.scan(/\|\|/))
          action { [text, text] }
 
-      when (text = @ss.scan(/\|\|/))
+      when (text = @ss.scan(/&&/))
          action { [text, text] }
 
       when (text = @ss.scan(/==/))
@@ -119,14 +113,14 @@ class Lexer < Racc::Parser
       when (text = @ss.scan(/!=/))
          action { [text, text] }
 
-      when (text = @ss.scan(/<=/))
-         action { [text, text] }
-
       when (text = @ss.scan(/>=/))
          action { [text, text] }
 
-      when (text = @ss.scan(/./))
+      when (text = @ss.scan(/<=/))
          action { [text, text] }
+
+      when (text = @ss.scan(/./))
+         action { [text, text] } # ["=", "="]
 
       else
         text = @ss.string[@ss.pos .. -1]
