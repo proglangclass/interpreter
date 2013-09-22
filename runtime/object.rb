@@ -1,6 +1,7 @@
 # Represents an object instance in the Ruby world.
 class RObject
   attr_accessor :runtime_class, :ruby_value
+  attr_accessor :instance_variablews
 
   # Each object have a class (named runtime_class to prevent errors with Ruby's class
   # method). Optionaly an object can hold a Ruby value (eg.: numbers and strings).

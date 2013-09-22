@@ -7,7 +7,13 @@ class RMethod
   
   def call(receiver, arguments)
     # Create a context of evaluation in which the method will execute.
-    context = Context.new(receiver)
+    # one.call("+", [two])
+    # class Number
+    #   def +
+    #     self == one
+    #   end
+    # end
+    context = Context.new(receiver) # self = receiver
     
     # Assign arguments to local variables
     @params.each_with_index do |param, index|
@@ -15,5 +21,5 @@ class RMethod
     end
     
     @body.eval(context)
-  end
+  end # no more context
 end
