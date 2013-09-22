@@ -14,6 +14,7 @@ token TRUE FALSE NIL
 token IDENTIFIER
 token CONSTANT
 token END
+token WHILE
 
 # Precedence table
 # Based on http://en.wikipedia.org/wiki/Operators_in_C_and_C%2B%2B#Operator_precedence
@@ -64,6 +65,7 @@ rule
   | Def
   | Class
   | If
+  | While
   | '(' Expression ')'            { result = val[1] }
   ;
   
@@ -155,6 +157,12 @@ rule
   # Retrieving the value of a constant
   GetConstant:
     CONSTANT                      { result = GetConstantNode.new(val[0]) }
+  ;
+
+  While:
+    WHILE Expression Terminator
+      Expressions
+    END                           { result = WhileNode.new(val[1], val[3]) }
   ;
 end
 
