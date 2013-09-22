@@ -64,7 +64,7 @@ class BytecodeGenerator
   end
   
   def get_local(name)
-    
+    emit GET_LOCAL, local_index(name)
   end
   
   def call(receiver, method, arguments)
@@ -92,7 +92,18 @@ class BytecodeGenerator
     emit JUMP_UNLESS, 0
     offset_index = @instructions.size - 1
     body.compile(self)
+
+    emit JUMP, 0 if else_body
+
+    # Updates the JUMP_UNLESS
     @instructions[offset_index] = @instructions.size - 1 - offset_index
+
+    if else_body
+      offset_index = @instructions.size - 1
+      else_body.compile(self)
+      # Update the JUMP
+      @instructions[offset_index] = @instructions.size - 1 - offset_index
+    end
   end
   
   # Returns the index of the local in the local table
@@ -114,6 +125,7 @@ class BytecodeGenerator
   # 0, 1, 10
   def emit(opcode, *operands)
     @instructions << opcode
+    # [CALL].concat [1, 2, 3] => [CALL, 1, 2, 3]
     @instructions.concat operands
   end
   
