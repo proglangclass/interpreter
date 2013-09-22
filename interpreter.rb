@@ -122,5 +122,12 @@ class IfNode
     #  condition: condition node that will determine if the body should be executed
     #       body: node to be executed if the condition is true
     #  else_body: node to be executed if the condition is false
+    if condition.eval(context).ruby_value
+      body.eval(context)
+    elsif else_body
+      else_body.eval(context)
+    else
+      Constants["nil"]
+    end
   end
 end
