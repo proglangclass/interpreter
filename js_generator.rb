@@ -16,7 +16,7 @@ class JsGenerator
     
   end
   
-  def set_local(name, value)
+  def set_local(name, value_node)
     
   end
   
@@ -24,7 +24,7 @@ class JsGenerator
     
   end
   
-  def if(condition, body, else_body)
+  def if(condition_node, body_node, else_body_node)
     
   end
 

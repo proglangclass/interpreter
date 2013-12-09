@@ -1,8 +1,8 @@
 # Represents a method defined in the runtime.
 class RMethod
-  def initialize(params, body)
+  def initialize(params, body_node)
     @params = params
-    @body = body
+    @body_node = body_node
   end
   
   def call(receiver, arguments)
@@ -14,6 +14,6 @@ class RMethod
       context.locals[param] = arguments[index]
     end
     
-    @body.eval(context)
+    @body_node.eval(context)
   end
 end

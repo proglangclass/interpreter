@@ -51,7 +51,7 @@ end
 
 class CallNode
   def compile(generator)
-    generator.call(receiver, method, arguments)
+    generator.call(receiver_node, method, argument_nodes)
   end
 end
 
@@ -63,12 +63,12 @@ end
 
 class SetLocalNode
   def compile(generator)
-    generator.set_local(name, value)
+    generator.set_local(name, value_node)
   end
 end
 
 class IfNode
   def compile(generator)
-    generator.if condition, body, else_body
+    generator.if condition_node, body_node, else_body_node
   end
 end

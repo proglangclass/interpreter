@@ -47,7 +47,7 @@ class BytecodeGenerator
     
   end
   
-  def set_local(name, value)
+  def set_local(name, value_node)
     
   end
   
@@ -55,11 +55,11 @@ class BytecodeGenerator
     
   end
   
-  def call(receiver, method, arguments)
+  def call(receiver_node, method, argument_nodes)
     
   end
   
-  def if(condition, body, else_body)
+  def if(condition_node, body_node, else_body_node)
     
   end
   
