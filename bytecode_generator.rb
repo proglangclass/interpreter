@@ -58,8 +58,8 @@ class BytecodeGenerator
     emit PUSH_NIL
   end
   
-  def set_local(name, value)
-    value.compile(self)
+  def set_local(name, value_node)
+    value_node.compile(self)
     emit SET_LOCAL, local_index(name)
   end
   
@@ -67,15 +67,15 @@ class BytecodeGenerator
     emit GET_LOCAL, local_index(name)
   end
   
-  def call(receiver, method, arguments)
-    if receiver
-      receiver.compile(self)
+  def call(receiver_node, method, argument_nodes)
+    if receiver_node
+      receiver_node.compile(self)
     else # print("hi")
       emit PUSH_SELF
     end
 
-    arguments.each do |arg|
-      arg.compile(self)
+    argument_nodes.each do |node|
+      node.compile(self)
     end
 
     # Static Typing: int a;
@@ -84,23 +84,23 @@ class BytecodeGenerator
       return
     end
 
-    emit CALL, literal_index(method), arguments.size
+    emit CALL, literal_index(method), argument_nodes.size
   end
   
-  def if(condition, body, else_body)
-    condition.compile(self)
+  def if(condition_node, body_node, else_body_node)
+    condition_node.compile(self)
     emit JUMP_UNLESS, 0
     offset_index = @instructions.size - 1
-    body.compile(self)
+    body_node.compile(self)
 
-    emit JUMP, 0 if else_body
+    emit JUMP, 0 if else_body_node
 
     # Updates the JUMP_UNLESS
     @instructions[offset_index] = @instructions.size - 1 - offset_index
 
-    if else_body
+    if else_body_node
       offset_index = @instructions.size - 1
-      else_body.compile(self)
+      else_body_node.compile(self)
       # Update the JUMP
       @instructions[offset_index] = @instructions.size - 1 - offset_index
     end

@@ -23,21 +23,21 @@ class JsGenerator
   # var a,b;
   # a = 1;
   
-  def set_local(name, value)
+  def set_local(name, value_node)
     @locals << name unless @locals.include?(name)
     emit "#{name} = "
-    value.compile(self)
+    value_node.compile(self)
   end
   
   def get_local(name)
     emit name
   end
   
-  def if(condition, body, else_body)
+  def if(condition_node, body_node, else_body_node)
     emit "if ("
-    condition.compile(self)
+    condition_node.compile(self)
     emit ") {\n"
-    body.compile(self)
+    body_node.compile(self)
     emit "}"
   end
 
