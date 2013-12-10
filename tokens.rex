@@ -8,6 +8,7 @@ macro
 rule
   # Whitespace
   {BLANK}       # no action
+  \#.*$         # no action
 
   \d+           { [:NUMBER, text.to_i] }
   \"[^"]*\"     { [:STRING, text[1..-2]] } # 'hi'
