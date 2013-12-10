@@ -8,7 +8,37 @@ macro
 rule
   # Whitespace
   {BLANK}       # no action
+
+  \d+           { [:NUMBER, text.to_i] }
+  \"[^"]*\"     { [:STRING, text[1..-2]] } # 'hi'
+  \n+           { [:NEWLINE, text] }
   
+  # Keywords
+  end           { [:END, text] }
+  def           { [:DEF, text] }
+  class         { [:CLASS, text] }
+  if            { [:IF, text] }
+  else          { [:ELSE, text] }
+
+  # Literals
+  true          { [:TRUE, text] }
+  false         { [:FALSE, text] }
+  nil           { [:NIL, text] }
+
+  # Identifiers
+  [a-z]\w*      { [:IDENTIFIER, text] } # variable_name, method_name
+  [A-Z]\w*      { [:CONSTANT, text] } # Constant
+
+  # Long operators
+  &&            { [text, text] }
+  \|\|          { [text, text] }
+  ==            { [text, text] }
+  !=            { [text, text] }
+  <=            { [text, text] }
+  >=            { [text, text] }
+
+  # Catch all
+  .             { [text, text] }  # +, -, *, ., (, )
   
 
 inner
