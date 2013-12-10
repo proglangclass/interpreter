@@ -5,7 +5,7 @@ class RClass < RObject
 
   # Creates a new class. Number is an instance of Class for example.
   def initialize
-    @runtime_methods = {}
+    @runtime_methods = {} # key: name of method, value: method
     @runtime_class = Constants["Class"]
   end
 

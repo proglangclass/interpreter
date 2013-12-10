@@ -32,5 +32,7 @@ class RuntimeTest < Test::Unit::TestCase
   
   def test_number_add
     ### Exercise: Compute 1 + 2 using the Runtime API
+    # ...
+    # assert_equal 3, number.ruby_value
   end
 end
