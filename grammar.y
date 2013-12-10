@@ -63,6 +63,7 @@ rule
   | SetLocal
   | Def
   | Class
+  | If
   | '(' Expression ')'            { result = val[1] }
   ;
   
@@ -144,6 +145,17 @@ rule
   # Retrieving the value of a constant
   GetConstant:
     CONSTANT                      { result = GetConstantNode.new(val[0]) }
+  ;
+
+  If:
+    IF Expression Terminator
+      Expressions
+    END                           { result = IfNode.new(val[1], val[3], nil) }
+  | IF Expression Terminator
+      Expressions
+    ELSE Terminator
+      Expressions
+    END                           { result = IfNode.new(val[1], val[3], val[6]) }
   ;
 end
 
