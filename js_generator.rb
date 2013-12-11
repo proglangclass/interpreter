@@ -35,8 +35,15 @@ class JsGenerator
     emit name
   end
   
+  # if (condition) {
+  # body
+  # }
   def if(condition_node, body_node, else_body_node)
-    
+    emit 'if ('
+    condition_node.compile(self)
+    emit ") {\n"
+    body_node.compile(self)
+    emit "}"
   end
 
   # Emit a chunk of Javascript code.
@@ -46,6 +53,12 @@ class JsGenerator
   
   # Called at the end of compilation to assemble all the code generated.
   def assemble
-    "var " + @locals.join(', ') + ";\n" + @code.join
+    out = ""
+
+    if @locals.size > 0
+      out << "var " + @locals.join(', ') + ";\n"
+    end
+
+    out + @code.join
   end
 end
