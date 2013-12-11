@@ -4,6 +4,7 @@ class Parser
 
 # Declare tokens produced by the lexer
 token IF
+token WHILE
 token ELSE
 token DEF
 token CLASS
@@ -64,6 +65,7 @@ rule
   | Def
   | Class
   | If
+  | While
   | '(' Expression ')'            { result = val[1] }
   ;
   
@@ -156,6 +158,12 @@ rule
     ELSE Terminator
       Expressions
     END                           { result = IfNode.new(val[1], val[3], val[6]) }
+  ;
+
+  While:
+    WHILE Expression Terminator
+      Expressions
+    END                           { result = WhileNode.new(val[1], val[3]) }
   ;
 end
 

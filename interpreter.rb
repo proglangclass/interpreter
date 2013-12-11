@@ -128,3 +128,11 @@ class IfNode
     end
   end
 end
+
+class WhileNode
+  def eval(context)
+    while condition_node.eval(context).ruby_value
+      body_node.eval(context)
+    end
+  end
+end

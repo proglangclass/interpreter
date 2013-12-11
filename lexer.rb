@@ -89,6 +89,9 @@ class Lexer < Racc::Parser
       when (text = @ss.scan(/else/))
          action { [:ELSE, text] }
 
+      when (text = @ss.scan(/while/))
+         action { [:WHILE, text] }
+
       when (text = @ss.scan(/true/))
          action { [:TRUE, text] }
 

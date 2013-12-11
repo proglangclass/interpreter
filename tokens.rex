@@ -20,6 +20,7 @@ rule
   class         { [:CLASS, text] }
   if            { [:IF, text] }
   else          { [:ELSE, text] }
+  while         { [:WHILE, text] }
 
   # Literals
   true          { [:TRUE, text] }
